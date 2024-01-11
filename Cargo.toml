@@ -1,0 +1,36 @@
+[package]
+name = "tfhe-c-api-dynamic-buffer"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+readme = "README.md"
+keywords = ["buffer", "FFI", "tfhe"]
+homepage = "https://zama.ai/"
+repository = "https://github.com/zama-ai/tfhe-c-api-dynamic-buffer"
+license = "BSD-3-Clause-Clear"
+description = "This is a helper crate for TFHE-rs (https://crates.io/crates/tfhe) to easily share buffers between C and Rust and make their destruction safe on both sides of the FFI."
+exclude = [
+    "/c_api_tests/",
+    "/.editorconfig",
+    "/CODE_OF_CONDUCT.md",
+    "/Makefile",
+    "/rustfmt.toml",
+    "/toolchain.txt",
+    "/c_api_tests/"
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[build-dependencies]
+cbindgen = { version = "0.26.0", optional = true }
+
+[features]
+c_api_print_error_source = []
+# This may seem counter-intuitive but we output the .h file at the same location as the lib files
+# which cargo publish complains with, so we make the C API part optional
+c_api = ["dep:cbindgen"]
+
+[lib]
+crate-type = ["lib", "staticlib", "cdylib"]
